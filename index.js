@@ -37,6 +37,69 @@ app.get('/api/users', async (req, res) => {
   }
 });
 
+app.post('/api/users', async (req, res) => {
+    try {
+        const {email, password} = req.body;
+        const result = await pool.query('INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *',
+             [email, password]
+        );
+        res.json(result.rows[0]);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+})
+
+app.get('/api/users/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const result = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({error: "usuario no encontrado"})
+        }
+
+        res.json(result.rows[0])
+    } catch(err) {
+        res.status(500).json({error: err.message})
+    }
+})
+
+app.put('/api/users/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const {email, password} = req.body
+
+        const result = await pool.query('UPDATE users SET email = $1, password = $2 WHERE id = $3 RETURNING *',
+            [email, password, id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({error: "usuario invalido"})
+        }
+
+        res.json(result.rows[0])
+    } catch (err) {
+        res.status(500).json({error: err.message})
+    }
+})
+
+app.delete('/api/users/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await pool.query('DELETE FROM users WHERE id = $1 RETURNING *',
+            [id]
+        );
+        if (result.rows.length === 0) {
+            return res.status(404).json({error: "usuario no encontrado"})
+        }
+
+        res.json(result.rows[0])
+    } catch(err) {
+        res.status(500).json({error: err.message})
+    }
+})
+
 // Iniciar servidor
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
