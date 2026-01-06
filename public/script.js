@@ -2,7 +2,7 @@ async function loadTasks() {
 
     document.getElementById('tasks').innerHTML = '<li>Cargando...</li>';
 
-    const response = await fetch('http://localhost:3000/api/tasks')
+    const response = await fetch('/api/tasks')
 
     if (!response.ok) {
         alert('error' + response.status);
