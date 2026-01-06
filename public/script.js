@@ -39,7 +39,7 @@ async function addTask() {
     const desc = document.getElementById("descInput").value;
 
     //POST A api/tasks
-    await fetch('http://localhost:3000/api/tasks', {
+    await fetch('/api/tasks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, description: desc, user_id: 2 })
