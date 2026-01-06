@@ -1,5 +1,14 @@
 async function loadTasks() {
+
+    document.getElementById('tasks').innerHTML = '<li>Cargando...</li>';
+
     const response = await fetch('http://localhost:3000/api/tasks')
+
+    if (!response.ok) {
+        alert('error' + response.status);
+        return;
+    }
+
     const tasks = await response.json();
 
     const ul = document.getElementById("tasks");
@@ -11,12 +20,11 @@ async function loadTasks() {
     tasks.forEach(task => {
         const li = document.createElement("li");
 
-        li.innerHTML = `
-    ${task.title} - ${task.description} 
+        li.className = task.completed ? 'completed' : '';  // CSS clase
+        li.innerHTML = `${task.title} - ${task.description} 
+    <span>${task.completed ? '✅' : '⭕'}</span>
     <button onclick="toggle(${task.id})">Toggle</button>
-    <button onclick="deleteTask(${task.id})">Delete</button>
-`;
-
+    <button onclick="deleteTask(${task.id})">Delete</button>`;
 
         ul.appendChild(li)
     });
@@ -50,7 +58,7 @@ async function toggle(id) {
     // 2. PUT /api/tasks/${id} con completed: !task.completed
     await fetch(`http://localhost:3000/api/tasks/${id}`, {
         method: 'PUT',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             title: data.title,
             description: data.description,
@@ -62,9 +70,13 @@ async function toggle(id) {
 
 async function deleteTask(id) {
     // DELETE /api/tasks/${id}
-    await fetch(`http://localhost:3000/api/tasks/${id}`,{
+    await fetch(`http://localhost:3000/api/tasks/${id}`, {
         method: 'DELETE',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
     })
     loadTasks()
 }
+
+document.addEventListener('keypress', (e) => {
+    if (e.key === "Enter") addTask();
+})

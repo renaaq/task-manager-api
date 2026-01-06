@@ -1,12 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Manager</title>
     <script src="script.js"></script>
+    <style>
+        .completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        input {
+            padding: 8px;
+            margin: 5px;
+            width: 200px;
+        }
+    </style>
+
 
 </head>
+
 <body>
     <h1>Task Manager</h1>
     <input type="text" id="titleInput" placeholder="Put a title.">
@@ -17,4 +38,5 @@
 
     <ul id="tasks"></ul>
 </body>
+
 </html>
