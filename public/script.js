@@ -52,11 +52,11 @@ async function addTask() {
 
 async function toggle(id) {
     // 1. GET /api/tasks/${id} → task actual
-    const response = await fetch(`http://localhost:3000/api/tasks/${id}`);
+    const response = await fetch(`/api/tasks/${id}`);
     const data = await response.json()
 
     // 2. PUT /api/tasks/${id} con completed: !task.completed
-    await fetch(`http://localhost:3000/api/tasks/${id}`, {
+    await fetch(`/api/tasks/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
