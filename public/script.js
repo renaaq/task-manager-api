@@ -72,7 +72,7 @@ async function toggle(id) {
 
 async function deleteTask(id) {
     // DELETE /api/tasks/${id}
-    await fetch(`http://localhost:3000/api/tasks/${id}`, {
+    await fetch(`/api/tasks/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
     })
