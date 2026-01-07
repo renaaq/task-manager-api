@@ -113,7 +113,7 @@ app.get('/api/tasks', async (req, res) => {
 
 app.post('/api/tasks', async (req, res) => {
     try {
-        const { title, description, user_id } = req.body;
+        const { title, description, user_id = 1 } = req.body;  // DEFAULT 1
         const result = await pool.query(
             'INSERT INTO tasks (title, description, user_id) VALUES ($1, $2, $3) RETURNING *', [title, description, user_id]
         );
@@ -159,11 +159,11 @@ app.delete('/api/tasks/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const result = await pool.query('DELETE FROM tasks WHERE id = $1 RETURNING *', [id]);
-        
+
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Task no encontrada' });
         }
-        
+
         res.json(result.rows[0]);
     } catch (err) {
         res.status(500).json({ error: err.message });
