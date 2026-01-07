@@ -68,6 +68,8 @@ async function toggle(id) {
     loadTasks()
 }
 
+
+
 async function deleteTask(id) {
     // DELETE /api/tasks/${id}
     await fetch(`http://localhost:3000/api/tasks/${id}`, {
