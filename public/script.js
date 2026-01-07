@@ -42,7 +42,7 @@ async function addTask() {
     await fetch('/api/tasks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, description: desc, user_id: 2 })
+        body: JSON.stringify({ title, description: desc, user_id: 1 })
     });
     document.getElementById("titleInput").value = ""
     document.getElementById("descInput").value = ""
